@@ -1,0 +1,1 @@
+echo "Log started at $(date)" > log.txt

@@ -1,0 +1,25 @@
+name: Auto Commit Every 4 Hours
+
+on:
+  schedule:
+    - cron: "0 */4 * * *" # Setiap 4 jam
+  workflow_dispatch: # Bisa dijalankan manual
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Make dummy commit
+        run: |
+          echo "Updated at $(date)" >> log.txt
+          git add log.txt
+          git commit -m "Auto commit at $(date)" || echo "Nothing to commit"
+          git push
